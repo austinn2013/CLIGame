@@ -18,6 +18,7 @@ public class Main {
         }
         Player player = new Player(100, new Inventory(0.0, new ArrayList<String>()), 10, 0);
         System.out.println("Let's begin!");
+        wait(1000);
         int wave = 1;
         while (true) {
             // Check to see if player is dead
@@ -37,6 +38,11 @@ public class Main {
             System.out.println("You are fighting " + monster.getName() + "\n");
             wait(1000);
             Battle.beginBattle(player, monster);
+
+            // End of battle
+            System.out.println("You have gained " + wave + " strength!");
+            player.setStrength(player.getStrength()+1);
+            wait(1000);
 
             // End the wave
             System.out.println("Ending wave " + wave + "\n");

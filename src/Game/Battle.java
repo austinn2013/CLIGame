@@ -68,6 +68,7 @@ public class Battle {
                     case 3:
                         break;
                     case 4:
+                        System.out.println("\nYou have skipped your turn\n");
                         break;
                 }
                 pTurn = false;
@@ -96,10 +97,6 @@ public class Battle {
 
     public static boolean isDone(Player player, Monster monster) {
         return player.isDead() || monster.isDead();
-    }
-
-    public static void receiveDamage(Entity entity, int damage) {
-        entity.setHealth(entity.getHealth() - damage);
     }
 
     public static void showMenu() {
