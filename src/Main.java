@@ -45,8 +45,9 @@ public class Main {
             player.setStrength(player.getStrength()+1);
             wait(1000);
             int chance = (int)(Math.random() * 5);
+            System.out.println(chance);
             if (droppedItem(chance) == null) {
-
+                System.out.println("No drops");
             }
             else {
                 System.out.println(monster.getName() + " dropped a " + droppedItem(chance).getName());
@@ -54,12 +55,12 @@ public class Main {
                 System.out.print("Do you want to pick it up? ");
                 response = scanner.nextLine();
                 if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("yes")) {
-
+                    player.getInventory().addToInventory(droppedItem(chance));
                 }
             }
 
             // End the wave
-            System.out.println("Ending wave " + wave + "\n");
+            System.out.println("\nEnding wave " + wave + "\n");
             wave++;
             wait(1000);
         }
@@ -69,9 +70,9 @@ public class Main {
     public static Item droppedItem(int chance) {
         Item droppedItem = null;
         switch (chance) {
-            case 0:
-                droppedItem = new Item("Sword");
             case 1:
+                droppedItem = new Item("Sword");
+            case 2:
                 droppedItem = new Item("Potion");
             default:
                 break;

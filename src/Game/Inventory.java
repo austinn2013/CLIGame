@@ -12,22 +12,14 @@ public class Inventory {
     public Inventory() {
         this.gold = 100;
         this.items = new ArrayList<Item>();
-        for (int i = 0; i < SPACE; i++) {
-            this.items.add(new Item(""));
-        }
     }
 
     public void showInventory() {
         System.out.println("\nGold: " + this.gold);
         int itemNumber = 1;
-        if (verifyElements(this.items)) {
-            System.out.println("Inventory is empty!\n");
-        }
-        else {
-            for (Item item : this.items) {
-                System.out.println(itemNumber + ". " + item.getName());
-                itemNumber++;
-            }
+        for (Item item : this.items) {
+            System.out.println(itemNumber + ". " + item.getName());
+            itemNumber++;
         }
     }
 
@@ -57,11 +49,11 @@ public class Inventory {
 
     public void makeSpace(ArrayList<Item> newItems) {
         int difference = this.items.size() - newItems.size();
-        System.out.println("Not enough space to fit all items! The last " + difference + " items will not be" +
+        System.out.println("Not enough space to fit all items! The last " + difference + " items will not be " +
                 "added to backpack!");
+        System.out.print("Do you want to discard " + difference + " items in your inventory to make space?");
         Scanner scanner = new Scanner(System.in);
         String response = scanner.nextLine();
-        System.out.print("Do you want to discard " + difference + " items in your inventory to make space?");
         if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("yes")) {
             // Add functionality here
             showInventory();
@@ -93,21 +85,16 @@ public class Inventory {
         return newItems.size() + this.items.size() <= SPACE;
     }
 
-    public boolean verifyElements(ArrayList<Item> items) {
-        for (Item item : items) {
-            if (!item.getName().equals(items.get(0).getName())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public double getGold() {
         return this.gold;
     }
 
     public void setGold(double gold) {
         this.gold = gold;
+    }
+
+    public ArrayList<Item> getItems() {
+        return this.items;
     }
 
 }

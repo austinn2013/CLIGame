@@ -22,17 +22,20 @@ public class Battle {
         try {
             switch (monster.getName()) {
                 case "Skeleton":
-                    monster.setHealth(150);
+                    monster.setHealth(1);
+                    //monster.setHealth(150);
                     monster.setStrength(3);
                     monster.setMana(0);
                     break;
                 case "Zombie":
-                    monster.setHealth(100);
+                    monster.setHealth(1);
+                    //monster.setHealth(100);
                     monster.setStrength(5);
                     monster.setMana(0);
                     break;
                 case "Dragon":
-                    monster.setHealth(200);
+                    monster.setHealth(1);
+                    //monster.setHealth(200);
                     monster.setStrength(5);
                     monster.setMana(50);
                     break;
@@ -64,9 +67,34 @@ public class Battle {
                         System.out.println(monster.getName() + " has " + monster.getHealth() + " hp\n");
                         break;
                     case 2:
-                        player.getInventory().showInventory();
-                        System.out.print("\nWhich item do you want to use? ");
-                        continue;
+                        if (player.getInventory().getItems().size() == 0) {
+                            System.out.println("Inventory is empty!\n");
+                            continue;
+                        }
+                        else {
+                            Inventory playerInventory = player.getInventory();
+                            playerInventory.showInventory();
+                            System.out.print("\nWhich item do you want to use (press 0 to leave)? ");
+                            Scanner scanner = new Scanner(System.in);
+                            int response = scanner.nextInt();
+                            if (response == 0) {
+                                System.out.println();
+                                continue;
+                            }
+                            Item usedItem = playerInventory.useItem(playerInventory.getItems().get(response-1));
+                            if (usedItem.getName().equals("Sword")) {
+                                player.setStrength(player.getStrength() + usedItem.getStrength());
+                                System.out.println("\nPlayer equipped a " + usedItem.getName());
+                                System.out.println("Player now has " + player.getStrength() + " strength!\n");
+                                break;
+                            }
+                            else {
+                                player.setHealth(player.getHealth() + usedItem.getHealth());
+                                System.out.println("\nPlayer consumed a " + usedItem.getName());
+                                System.out.println("Player now has " + player.getHealth() + " hp!\n");
+                            }
+                            break;
+                        }
                     case 3:
                         break;
                     case 4:
