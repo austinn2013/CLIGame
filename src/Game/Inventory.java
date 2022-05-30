@@ -10,7 +10,14 @@ public class Inventory {
 
     public Inventory(double gold, ArrayList<String> items) {
         this.gold = gold;
-        this.items.addAll(items);
+        if (hasSpace(items)) {
+            this.items.addAll(items);
+        }
+        else {
+            makeSpace(items); // function doesn't consider the case where user discards inventory for some items;
+                              // all or nothing
+            this.items.addAll(items);
+        }
     }
 
     public void showInventory() {
@@ -21,43 +28,42 @@ public class Inventory {
         }
     }
 
-    public boolean checkSpace(ArrayList<String> newItems) {
-        if (newItems.size() + this.items.size() >= SPACE) {
-            int difference = this.items.size() - newItems.size();
-            System.out.println("Not enough space to fit all items! The last " + difference + " items will not be" +
-                    "added to backpack!");
-            Scanner scanner = new Scanner(System.in);
-            String response = scanner.nextLine();
-            System.out.print("Do you want to discard " + difference + " items in your inventory to make space?");
-            if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("yes")) {
-                // Add functionality here
-                showInventory();
-                System.out.print("Which item(s) to remove? ");
-                boolean done = false;
-                int itemAdded = 0;
-                Scanner getItem = new Scanner(System.in);
-                while(!done) {
-                    if (itemAdded == difference) {
-                        done = true;
-                    }
-                    int remainingItems = difference - itemAdded;
-                    System.out.print("You can add " + remainingItems + " more item(s)");
-                    int itemNumber = getItem.nextInt();
-                    if (itemNumber <= 0 || itemNumber > SPACE) {
-                        System.out.println("Incorrect item number! Please re-enter.");
-                        continue;
-                    }
-                    this.items.remove(itemNumber-1);
-                    itemAdded++;
+    public void makeSpace(ArrayList<String> newItems) {
+        int difference = this.items.size() - newItems.size();
+        System.out.println("Not enough space to fit all items! The last " + difference + " items will not be" +
+                "added to backpack!");
+        Scanner scanner = new Scanner(System.in);
+        String response = scanner.nextLine();
+        System.out.print("Do you want to discard " + difference + " items in your inventory to make space?");
+        if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("yes")) {
+            // Add functionality here
+            showInventory();
+            System.out.print("Which item(s) to remove? ");
+            boolean done = false;
+            int itemAdded = 0;
+            Scanner getItem = new Scanner(System.in);
+            while(!done) {
+                if (itemAdded == difference) {
+                    done = true;
                 }
-                return true;
-            }
-            else {
-                System.out.println("No changes were made to your inventory.");
-                return false;
+                int remainingItems = difference - itemAdded;
+                System.out.print("You can remove " + remainingItems + " more item(s)");
+                int itemNumber = getItem.nextInt();
+                if (itemNumber <= 0 || itemNumber > SPACE) {
+                    System.out.println("Incorrect item number! Please re-enter.");
+                    continue;
+                }
+                this.items.remove(itemNumber-1);
+                itemAdded++;
             }
         }
-        return true;
+        else {
+            System.out.println("No changes were made to your inventory.");
+        }
+    }
+
+    public boolean hasSpace(ArrayList<String> newItems) {
+        return newItems.size() + this.items.size() <= SPACE;
     }
 
     public double getGold() {
