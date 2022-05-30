@@ -72,8 +72,10 @@ public class Main {
         switch (chance) {
             case 1:
                 droppedItem = new Item("Sword");
+                break;
             case 2:
                 droppedItem = new Item("Potion");
+                break;
             default:
                 break;
         }
