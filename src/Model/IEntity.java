@@ -1,2 +1,4 @@
-package Model;public interface IEntity {
+package Model;
+
+public interface IEntity {
 }

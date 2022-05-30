@@ -1,2 +1,4 @@
-package Model;public class Monster {
+package Model;
+
+public class Monster {
 }
