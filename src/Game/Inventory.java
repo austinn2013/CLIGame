@@ -1,34 +1,61 @@
 package Game;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Inventory {
     private double gold;
     private static final int SPACE = 10;
-    private ArrayList<String> items = new ArrayList<String>();
+    private ArrayList<Item> items;
 
-    public Inventory(double gold, ArrayList<String> items) {
-        this.gold = gold;
-        if (hasSpace(items)) {
-            this.items.addAll(items);
-        }
-        else {
-            makeSpace(items); // function doesn't consider the case where user discards inventory for some items;
-                              // all or nothing
-            this.items.addAll(items);
+    public Inventory() {
+        this.gold = 100;
+        this.items = new ArrayList<Item>();
+        for (int i = 0; i < SPACE; i++) {
+            this.items.add(new Item(""));
         }
     }
 
     public void showInventory() {
-        System.out.println("Gold: " + this.gold);
+        System.out.println("\nGold: " + this.gold);
         int itemNumber = 1;
-        for (String items : this.items) {
-            System.out.println(itemNumber + ". " + items);
+        if (verifyElements(this.items)) {
+            System.out.println("Inventory is empty!\n");
+        }
+        else {
+            for (Item item : this.items) {
+                System.out.println(itemNumber + ". " + item.getName());
+                itemNumber++;
+            }
         }
     }
 
-    public void makeSpace(ArrayList<String> newItems) {
+    public Item useItem(Item item) {
+        Item usedItem = null;
+        Iterator<Item> itemName = this.items.iterator();
+        while (itemName.hasNext()) {
+            Item tempItem = itemName.next();
+            if (tempItem.equals(item)) {
+                usedItem = item;
+                itemName.remove();
+            }
+        }
+        return usedItem;
+    }
+
+    public void addToInventory(Item item) {
+        if (hasSpace(this.items)) {
+            this.items.add(item);
+        }
+        else {
+            makeSpace(this.items); // function doesn't consider the case where user discards inventory for some items;
+            // all or nothing
+            this.items.add(item);
+        }
+    }
+
+    public void makeSpace(ArrayList<Item> newItems) {
         int difference = this.items.size() - newItems.size();
         System.out.println("Not enough space to fit all items! The last " + difference + " items will not be" +
                 "added to backpack!");
@@ -62,8 +89,17 @@ public class Inventory {
         }
     }
 
-    public boolean hasSpace(ArrayList<String> newItems) {
+    public boolean hasSpace(ArrayList<Item> newItems) {
         return newItems.size() + this.items.size() <= SPACE;
+    }
+
+    public boolean verifyElements(ArrayList<Item> items) {
+        for (Item item : items) {
+            if (!item.getName().equals(items.get(0).getName())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public double getGold() {

@@ -64,7 +64,9 @@ public class Battle {
                         System.out.println(monster.getName() + " has " + monster.getHealth() + " hp\n");
                         break;
                     case 2:
-                        break;
+                        player.getInventory().showInventory();
+                        System.out.print("\nWhich item do you want to use? ");
+                        continue;
                     case 3:
                         break;
                     case 4:

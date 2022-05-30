@@ -1,5 +1,6 @@
 import Game.Battle;
 import Game.Inventory;
+import Game.Item;
 import Model.Monster;
 import Model.Player;
 
@@ -16,7 +17,7 @@ public class Main {
             System.out.println("Looks like you're not ready to go adventuring!");
             System.exit(1);
         }
-        Player player = new Player(100, new Inventory(0.0, new ArrayList<String>()), 10, 0);
+        Player player = new Player(100, new Inventory(), 10, 0);
         System.out.println("Let's begin!");
         wait(1000);
         int wave = 1;
@@ -43,6 +44,19 @@ public class Main {
             System.out.println("You have gained " + wave + " strength!");
             player.setStrength(player.getStrength()+1);
             wait(1000);
+            int chance = (int)(Math.random() * 5);
+            if (droppedItem(chance) == null) {
+
+            }
+            else {
+                System.out.println(monster.getName() + " dropped a " + droppedItem(chance).getName());
+                wait(1000);
+                System.out.print("Do you want to pick it up? ");
+                response = scanner.nextLine();
+                if (response.equalsIgnoreCase("y") || response.equalsIgnoreCase("yes")) {
+
+                }
+            }
 
             // End the wave
             System.out.println("Ending wave " + wave + "\n");
@@ -50,6 +64,19 @@ public class Main {
             wait(1000);
         }
         System.out.println("Thanks for playing!");
+    }
+
+    public static Item droppedItem(int chance) {
+        Item droppedItem = null;
+        switch (chance) {
+            case 0:
+                droppedItem = new Item("Sword");
+            case 1:
+                droppedItem = new Item("Potion");
+            default:
+                break;
+        }
+        return droppedItem;
     }
 
     public static void wait(int ms) {

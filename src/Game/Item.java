@@ -5,14 +5,29 @@ public class Item {
     private int strength;
     private int health;
 
-    public Item(String name, int strength, int health) {
+    public Item(String name) {
         if (name.equals("Sword")) {
             this.name = name;
-            this.strength = strength;
+            this.strength = 5;
         }
         else if (name.equals("Potion")) {
             this.name = name;
-            this.health = health;
+            this.health = 10;
         }
+        else {
+            this.name = "Empty slot";
+        }
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getStrength() {
+        return this.strength;
+    }
+
+    public int getHealth() {
+        return this.health;
     }
 }
